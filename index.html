@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chinese Virus Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&family=Orbitron&family=Quicksand&display=swap");
+      body {
+        background: rgb(0, 7, 19);
+        padding: 0;
+        margin: 0;
+      }
+      .bgHolder {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+      }
+      .header {
+        position: fixed;
+        height: 4pc;
+        width: 100%;
+        margin: auto;
+        top: 0;
+        right: 0;
+        left: 0;
+        background: linear-gradient(to right, rgb(0, 69, 134), rgb(53, 0, 102));
+        z-index: 7;
+      }
+      .header h1 {
+        position: absolute;
+        margin: auto;
+        height: fit-content;
+        width: fit-content;
+        top: 0;
+        left: 20px;
+        bottom: 0;
+        text-align: center;
+        color: white;
+        font-family: "Orbitron", sans-serif;
+      }
+      .header img {
+        position: absolute;
+        margin: auto;
+        height: 30px;
+        top: 0;
+        right: 20px;
+        bottom: 0;
+        filter: invert(1);
+      }
+      .indianStatContainer {
+        position: absolute;
+        height: 36pc;
+        width: 100%;
+        margin: auto;
+        top: 4pc;
+        right: 0;
+        left: 0;
+        border-radius: 20px;
+        color: white;
+      }
+      .confirmedCases,
+      .recoveredCases,
+      .deathCases,
+      .rateCases {
+        position: relative;
+        height: fit-content;
+        width: 90%;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(17, 23, 44);
+        color: black;
+        border-radius: 10px;
+        right: 0;
+        left: 0;
+      }
+      .confirmedCases h6,
+      .recoveredCases h6,
+      .deathCases h6,
+      .recoveryRate,
+      .deathRate {
+        margin: 0em;
+        font-size: 20px;
+        font-family: "Quicksand", sans-serif;
+        color: rgb(170, 170, 170);
+      }
+      .stat1,
+      .stat2,
+      .stat3 {
+        margin: 0em;
+        margin-top: 10px;
+        font-size: 50px;
+        font-family: "Quicksand", sans-serif;
+        color: rgb(0, 91, 211);
+      }
+      .stat1 {
+        color: rgb(43, 174, 226);
+      }
+      .stat2 {
+        color: rgb(75, 255, 150);
+      }
+      .stat3 {
+        color: crimson;
+      }
+      .recoveryRate,
+      .deathRate {
+        margin: 0em;
+        max-width: 210px;
+        font-size: 30px;
+        font-family: "Quicksand", sans-serif;
+        color: rgb(255, 255, 255);
+      }
+      .recoveryRate {
+        color: rgb(75, 255, 150);
+      }
+      .deathRate {
+        color: crimson;
+      }
+      .stateStats {
+        position: absolute;
+        height: fit-content;
+        width: 90%;
+        margin: auto;
+        right: 0;
+        left: 0;
+        top: 43pc;
+        padding: 10px;
+        background-color: rgb(17, 23, 44);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .stateStatsTable table {
+        display: table;
+        border-collapse: collapse;
+        border-spacing: 2px;
+        width: 100%;
+      }
+      .stateStatsTable th {
+        text-align: right;
+        font-size: 15px;
+        color: white;
+        font-family: "poppins", sans-serif;
+      }
+      .stateStatsTable td {
+        color: white;
+        text-align: right;
+        font-size: 15px;
+        font-family: "poppins", sans-serif;
+      }
+      .stateStats h1 {
+        color: white;
+        font-family: "Quicksand", sans-serif;
+      }
+      .stats {
+        position: relative;
+        height: 145pc;
+        width: 100%;
+      }
+      .quotes {
+        position: relative;
+        height: fit-content;
+        top: 4pc;
+        width: 90%;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+        background: url("https://source.unsplash.com/600x600/?macro flowers");
+        margin-top: 10px;
+      }
+      .quote {
+        position: relative;
+        margin-top: 10px;
+        font-size: 30px;
+        word-wrap: break-word;
+        font-family: "Quicksand", sans-serif;
+        text-align: center;
+        height: fit-content;
+        width: fit-content;
+        text-shadow: 0 0 20px rgb(0, 0, 0);
+      }
+      .quoteAuthor {
+        margin-top: 12px;
+        text-align: center;
+        text-shadow: 0 0 20px rgb(0, 0, 0);
+        font-family: "poppins", sans-serif;
+      }
+      .quotesPage {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: rgb(0, 7, 19);
+        z-index: 8;
+        transition: 1s;
+        transform: translateY(-100%);
+      }
+      .acceptQuote {
+        position: absolute;
+        resize: none;
+        height: 60px;
+        width: 70%;
+        padding: 10px;
+        margin: auto;
+        top: 90px;
+        right: 0;
+        left: 0;
+        font-size: 20px;
+      }
+      .acceptAuthor {
+        position: absolute;
+        resize: none;
+        height: 10px;
+        width: 70%;
+        padding: 10px;
+        margin: auto;
+        top: 200px;
+        right: 0;
+        left: 0;
+      }
+      .quotesPage img {
+        position: absolute;
+        transform: rotate(45deg);
+        height: 40px;
+        margin: auto;
+        top: 20px;
+        right: 0;
+        left: 0;
+        filter: invert(1);
+      }
+      .quotesPage button {
+        position: absolute;
+        border-radius: 50px;
+        height: 40px;
+        width: 100px;
+        background: linear-gradient(45deg, rgb(36, 255, 200), blue);
+        border: none;
+        margin: auto;
+        outline: none;
+        right: 0;
+        left: 0;
+        top: 260px;
+        font-size: 30px;
+        color: white;
+      }
+      .quotesFromFirebase {
+        position: absolute;
+        height: 60%;
+        width: 100%;
+        margin: auto;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        overflow: scroll;
+        z-index:-1;
+      }
+      .quoteBro {
+        background: rgb(17, 23, 44);
+        color: white;
+        height: fit-content;
+        width: 85%;
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 12px;
+      }
+      .quoteText {
+        font-size: 30px;
+        font-family: "Quicksand", sans-serif;
+      }
+      .authorText {
+        font-family: "poppins", sans-serif;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>CORONATICS</h1>
+      <img
+        src="https://image.flaticon.com/icons/png/512/61/61112.png"
+        onclick="addQuote()"
+      />
+    </div>
+    <div class="bgHolder"></div>
+    <center>
+      <div class="quotes">
+        <div class="quote">
+          There is a fear among millions today, and we need to solve this fear
+          together.
+        </div>
+        <div class="quoteAuthor">Biresh Giri</div>
+      </div>
+    </center>
+    <div class="stats">
+      <div class="indianStatContainer">
+        <center>
+          <div class="confirmedCases">
+            <h6>Total Confirmed</h6>
+            <h3 class="stat1">...</h3>
+          </div>
+          <div class="recoveredCases">
+            <h6>Total Recovered</h6>
+            <h3 class="stat2">...</h3>
+          </div>
+          <div class="deathCases">
+            <h6>Total Deaths</h6>
+            <h3 class="stat3">...</h3>
+          </div>
+          <div class="rateCases">
+            <h6 class="recoveryRate">Recovery Rate: ...</h6>
+            <h6 class="deathRate">Death Rate: ...</h6>
+          </div>
+        </center>
+      </div>
+      <div class="stateStats">
+        <center>
+          <h1>StateWise Statistics</h1>
+          <table class="stateStatsTable"></table>
+        </center>
+      </div>
+    </div>
+    <div class="quotesPage">
+      <img
+        src="https://image.flaticon.com/icons/png/512/61/61112.png"
+        onclick="closeQuotesPage()"
+      />
+      <textarea
+        class="acceptQuote"
+        placeholder="Enter Quote here..."
+      ></textarea>
+      <input
+        type="text"
+        class="acceptAuthor"
+        placeholder="Enter Quote Author Name here..."
+      />
+      <button onclick="addQuoteToFirebase()">+</button>
+      <div class="quotesFromFirebase"></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase.js"></script>
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyCPyJRy3Ks29ZTjITEmysq7kgEDnnKDNqY",
+        authDomain: "chatroom-5a319.firebaseapp.com",
+        databaseURL: "https://chatroom-5a319.firebaseio.com",
+        projectId: "chatroom-5a319",
+        storageBucket: "chatroom-5a319.appspot.com",
+        messagingSenderId: "511570809971",
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <script>
+      window.onload = function () {
+        refresh();
+        document.querySelector(".acceptAuthor").value = "";
+        $.getJSON(
+          "https://chatroom-5a319.firebaseio.com/corona-quotes.json",
+          callback
+        );
+        $.getJSON(
+          "https://chatroom-5a319.firebaseio.com/corona-quotes.json",
+          displayRandomQuote
+        );
+      };
+      setInterval(refresh, 10000);
+      function refresh() {
+        var api = "https://api.covid19india.org/data.json";
+        $.getJSON(api, response);
+      }
+      function response(data) {
+        document.querySelector(".stat1").innerHTML =
+          data.statewise[0].confirmed;
+        document.querySelector(".stat2").innerHTML =
+          data.statewise[0].recovered;
+        document.querySelector(".stat3").innerHTML = data.statewise[0].deaths;
+        document.querySelector(".recoveryRate").innerHTML =
+          "Recovery Rate: " +
+          (
+            (data.statewise[0].recovered / data.statewise[0].confirmed) *
+            100
+          ).toFixed(2) +
+          "%";
+        document.querySelector(".deathRate").innerHTML =
+          "Death Rate: " +
+          (
+            (data.statewise[0].deaths / data.statewise[0].confirmed) *
+            100
+          ).toFixed(2) +
+          "%";
+        document.querySelector(".stateStatsTable").innerHTML =
+          '<th style="text-align: left;" height=50>State</th><th>Confirmed</th><th>Recovered</th><th>Died</th>';
+        for (var i = 1; i < data.statewise.length; i++) {
+          document.querySelector(".stateStatsTable").innerHTML +=
+            '<tr height=35><td style="text-align: left;">' +
+            data.statewise[i].state +
+            "</td><td>" +
+            data.statewise[i].confirmed +
+            "</td><td>" +
+            data.statewise[i].recovered +
+            "</td><td>" +
+            data.statewise[i].deaths +
+            "</td></tr>";
+        }
+      }
+      function addQuote() {
+        document.querySelector(".quotesPage").style.transform = "translateY(0)";
+      }
+      function closeQuotesPage() {
+        document.querySelector(".quotesPage").style.transform =
+          "translateY(-100%)";
+      }
+      function addQuoteToFirebase() {
+        var firebaseref = firebase.database().ref();
+        if (
+          document.querySelector(".acceptQuote").value.trim() != "" &&
+          document.querySelector(".acceptAuthor").value.trim() != ""
+        ) {
+          firebaseref.child("corona-quotes").push({
+            quote: document.querySelector(".acceptQuote").value.trim(),
+            author: document.querySelector(".acceptAuthor").value.trim(),
+          });
+        }
+        document.querySelector(".acceptQuote").value = "";
+
+        document.querySelector(".acceptAuthor").value = "";
+        $.getJSON(
+          "https://chatroom-5a319.firebaseio.com/corona-quotes.json",
+          callback
+        );
+      }
+      function callback(data) {
+        document.querySelector(".quotesFromFirebase").innerHTML = "";
+        for (var i in data) {
+          document.querySelector(".quotesFromFirebase").innerHTML +=
+            "<center><div class='quoteBro'><div class='quoteText'>" +
+            data[i].quote +
+            "</div><div class='authorText'>" +
+            data[i].author +
+            "</div></div></center>";
+        }
+      }
+      function displayRandomQuote(data) {
+        var counter = 0,
+          quotesArray = [],
+          authorArray = [];
+        for (var i in data) {
+          quotesArray.push(data[i].quote);
+          authorArray.push(data[i].author);
+          counter++;
+        }
+        var randomQuoteIndex = Math.floor(Math.random() * counter);
+        document.querySelector(".quote").innerHTML =
+          quotesArray[randomQuoteIndex];
+        document.querySelector(".quoteAuthor").innerHTML =
+          authorArray[randomQuoteIndex];
+      }
+    </script>
+  </body>
+</html>
